@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1525424863 source:h:\github\osexperience\os2\os2_1\main.cpp
+	<iostream>
+	<cstdio>
+	<windows.h>
+
