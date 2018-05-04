@@ -1,4 +1,4 @@
-ï»¿#include <iostream>
+#include <iostream>
 #include <cstdio>
 #include <windows.h>
 
@@ -6,11 +6,11 @@ using namespace std;
 
 struct JCB{
     int No;
-    int startRunTime;		//å¼€å§‹è¿è¡Œæ—¶åˆ» 
-    int finishTime;			//å®Œæˆè¿è¡Œæ—¶åˆ»
-    int zzTime;				//å¸¦æƒå‘¨è½¬æ—¶é—´
-    int nTime;				//å®Œæˆæ‰€éœ€çš„æ—¶é—´ï¼ˆèµ„æºï¼‰
-	int priority;			//ä¼˜å…ˆçº§
+    int startRunTime;		//¿ªÊ¼ÔËĞĞÊ±¿Ì
+    int finishTime;			//Íê³ÉÔËĞĞÊ±¿Ì
+    int zzTime;				//´øÈ¨ÖÜ×ªÊ±¼ä
+    int nTime;				//Íê³ÉËùĞèµÄÊ±¼ä£¨×ÊÔ´£©
+	int priority;			//ÓÅÏÈ¼¶
     JCB *Next;
 
     JCB(void){
@@ -29,15 +29,15 @@ void input(void)
     int N;
     JCB *work;
 
-    cout<<"è¯·è¾“å…¥ä½œä¸šä¸ªæ•°:"<<endl;
+    cout<<"ÇëÊäÈë×÷Òµ¸öÊı:"<<endl;
     cin>>N;
     for(int i=0;i<N;i++)
     {
         work=new JCB();
         work->No=i;
-        cout<<"è¯·è¾“å…¥ä½œä¸š"<<i<<"è¿è¡Œæ‰€éœ€æ—¶é—´:"<<endl;
+        cout<<"ÇëÊäÈë×÷Òµ"<<i<<"ÔËĞĞËùĞèÊ±¼ä:"<<endl;
         cin>>work->nTime;
-        cout<<"è¯·è¾“å…¥ä½œä¸š"<<i<<"çš„ä¼˜å…ˆçº§æ•°:"<<endl;
+        cout<<"ÇëÊäÈë×÷Òµ"<<i<<"µÄÓÅÏÈ¼¶Êı:"<<endl;
 		cin>>work->priority;
 
         if(Head==NULL)
@@ -67,9 +67,9 @@ void FCFS(void)
 {
 	JCB *work,*tag,*FCFS_Head=NULL,*FCFS_Tail=NULL;
 	int t=0;
-	float zztime_right=0,zztime=0;		//å¸¦æƒå‘¨è½¬å’Œå‘¨è½¬ 
-	
-	for(tag=Head;tag!=NULL;tag=tag->Next)	//æ‹·è´ä½œä¸šé˜Ÿåˆ— 
+	float zztime_right=0,zztime=0;		//´øÈ¨ÖÜ×ªºÍÖÜ×ª
+
+	for(tag=Head;tag!=NULL;tag=tag->Next)	//¿½±´×÷Òµ¶ÓÁĞ
 	{
 		work=new JCB();
 		work->No=tag->No;
@@ -77,54 +77,54 @@ void FCFS(void)
 		work->priority=tag->priority;
 		if(FCFS_Head==NULL)
 		{
-			FCFS_Head=work;			
+			FCFS_Head=work;
 			FCFS_Tail=work;
 		}
 		else
-		{	
+		{
 			FCFS_Tail->Next=work;
 			FCFS_Tail=FCFS_Tail->Next;
 		}
-			
+
 	}
-	
-	printf("\nå…ˆæ¥å…ˆæœåŠ¡ç®—æ³•ï¼ˆFCFSï¼‰ï¼š\n");
-	printf("%10s%15s%10s%10s%15s\n","ä½œä¸šç¼–å·","å¼€å§‹è¿è¡Œæ—¶åˆ»","å®Œæˆæ—¶åˆ»","å‘¨è½¬æ—¶é—´","å¸¦æƒå‘¨è½¬æ—¶é—´"); 
-	
+
+	printf("\nÏÈÀ´ÏÈ·şÎñËã·¨£¨FCFS£©£º\n");
+	printf("%10s%15s%10s%10s%15s\n","×÷Òµ±àºÅ","¿ªÊ¼ÔËĞĞÊ±¿Ì","Íê³ÉÊ±¿Ì","ÖÜ×ªÊ±¼ä","´øÈ¨ÖÜ×ªÊ±¼ä");
+
 	for(tag=FCFS_Head;tag!=NULL;tag=tag->Next)
 	{
 		tag->startRunTime=t;
 		tag->finishTime=t+tag->nTime;
-		tag->zzTime=tag->finishTime;	//ä½œä¸šå‡åœ¨0æ—¶åˆ»è¢«æäº¤ç»™ç³»ç»Ÿ 
+		tag->zzTime=tag->finishTime;	//×÷Òµ¾ùÔÚ0Ê±¿Ì±»Ìá½»¸øÏµÍ³
 		printf("%10d%15d%10d%10d%15.1f\n",tag->No,tag->startRunTime,tag->finishTime,tag->zzTime,(float)tag->zzTime/tag->nTime);
-		 
+
 		zztime+=tag->zzTime;
 		zztime_right+=(float)tag->zzTime/tag->nTime;
 		t+=tag->nTime;
 		Sleep(1000);
 	}
-	
+
 	zztime/=FCFS_Tail->No+1;
 	zztime_right/=FCFS_Tail->No+1;
-	printf("å¹³å‡å‘¨è½¬æ—¶é—´ï¼š%6.1f\n",zztime);
-	printf("å¹³å‡å¸¦æƒå‘¨è½¬æ—¶é—´ï¼š%6.1f\n",zztime_right);
-	
-	tag=FCFS_Head;	
+	printf("Æ½¾ùÖÜ×ªÊ±¼ä£º%6.1f\n",zztime);
+	printf("Æ½¾ù´øÈ¨ÖÜ×ªÊ±¼ä£º%6.1f\n",zztime_right);
+
+	tag=FCFS_Head;
 	while(tag!=NULL)
 	{
 		work=tag;
 		tag=tag->Next;
 		delete work;
-	}	
+	}
 }
 
 void SJF(void)
 {
 	JCB *work,*tag,*SJF_Head=NULL,*SJF_Tail=NULL,*head=NULL,*tail=NULL;
 	int t=0,n=0;
-	float zztime_right=0,zztime=0;		//å¸¦æƒå‘¨è½¬å’Œå‘¨è½¬ 
-	
-	for(tag=Head;tag!=NULL;tag=tag->Next)	//æ‹·è´ä½œä¸šé˜Ÿåˆ— 
+	float zztime_right=0,zztime=0;		//´øÈ¨ÖÜ×ªºÍÖÜ×ª
+
+	for(tag=Head;tag!=NULL;tag=tag->Next)	//¿½±´×÷Òµ¶ÓÁĞ
 	{
 		work=new JCB();
 		work->No=tag->No;
@@ -132,24 +132,24 @@ void SJF(void)
 		work->priority=tag->priority;
 		if(SJF_Head==NULL)
 		{
-			SJF_Head=work;			
+			SJF_Head=work;
 			SJF_Tail=work;
 		}
 		else
-		{	
+		{
 			SJF_Tail->Next=work;
 			SJF_Tail=SJF_Tail->Next;
-		}		
+		}
 	}
-	
-	for(n=Tail->No;n>0;n--)													//å»ºç«‹æ–°é˜Ÿåˆ— 
-	{	
-		
-		for(tag=SJF_Head->Next,work=SJF_Head;tag!=NULL;tag=tag->Next)		//å¯»æ‰¾åˆ°æœ€çŸ­ä½œä¸š 
+
+	for(n=Tail->No;n>0;n--)													//½¨Á¢ĞÂ¶ÓÁĞ
+	{
+
+		for(tag=SJF_Head->Next,work=SJF_Head;tag!=NULL;tag=tag->Next)		//Ñ°ÕÒµ½×î¶Ì×÷Òµ
 			if(tag->nTime < work->nTime)
-				work=tag;	
-		
-		if(work==SJF_Head)													//å°†æ‰¾åˆ°çš„ä½œä¸šä»é˜Ÿåˆ—ä¸­åˆ é™¤ 
+				work=tag;
+
+		if(work==SJF_Head)													//½«ÕÒµ½µÄ×÷Òµ´Ó¶ÓÁĞÖĞÉ¾³ı
 		{
 			SJF_Head=SJF_Head->Next;
 		}
@@ -159,10 +159,10 @@ void SJF(void)
 				continue;
 			tag->Next=work->Next;
 		}
-		
-		work->Next=NULL;				
-		
-		if(head==NULL)														//å°†æ‰¾åˆ°çš„ä½œä¸šæ’å…¥æ–°é˜Ÿåˆ— 
+
+		work->Next=NULL;
+
+		if(head==NULL)														//½«ÕÒµ½µÄ×÷Òµ²åÈëĞÂ¶ÓÁĞ
 		{
 			head=work;
 			tail=work;
@@ -173,36 +173,36 @@ void SJF(void)
 			tail=tail->Next;
 		}
 	}
-	
-	printf("\nçŸ­ä½œä¸šä¼˜å…ˆç®—æ³•ï¼ˆSJFï¼‰ï¼š\n");
-	printf("%10s%15s%10s%10s%15s\n","ä½œä¸šç¼–å·","å¼€å§‹è¿è¡Œæ—¶åˆ»","å®Œæˆæ—¶åˆ»","å‘¨è½¬æ—¶é—´","å¸¦æƒå‘¨è½¬æ—¶é—´"); 
-	
+
+	printf("\n¶Ì×÷ÒµÓÅÏÈËã·¨£¨SJF£©£º\n");
+	printf("%10s%15s%10s%10s%15s\n","×÷Òµ±àºÅ","¿ªÊ¼ÔËĞĞÊ±¿Ì","Íê³ÉÊ±¿Ì","ÖÜ×ªÊ±¼ä","´øÈ¨ÖÜ×ªÊ±¼ä");
+
 	for(tag=head;tag!=NULL;tag=tag->Next)
 	{
 		tag->startRunTime=t;
 		tag->finishTime=t+tag->nTime;
-		tag->zzTime=tag->finishTime;	//ä½œä¸šå‡åœ¨0æ—¶åˆ»è¢«æäº¤ç»™ç³»ç»Ÿ 
+		tag->zzTime=tag->finishTime;	//×÷Òµ¾ùÔÚ0Ê±¿Ì±»Ìá½»¸øÏµÍ³
 		printf("%10d%15d%10d%10d%15.1f\n",tag->No,tag->startRunTime,tag->finishTime,tag->zzTime,(float)tag->zzTime/tag->nTime);
-		 
+
 		zztime+=tag->zzTime;
 		zztime_right+=(float)tag->zzTime/tag->nTime;
 		t+=tag->nTime;
 		Sleep(1000);
 	}
-	
+
 	zztime/=Tail->No+1;
 	zztime_right/=Tail->No+1;
-	printf("å¹³å‡å‘¨è½¬æ—¶é—´ï¼š%6.1f\n",zztime);
-	printf("å¹³å‡å¸¦æƒå‘¨è½¬æ—¶é—´ï¼š%6.1f\n",zztime_right);
-	
-	tag=head;	
+	printf("Æ½¾ùÖÜ×ªÊ±¼ä£º%6.1f\n",zztime);
+	printf("Æ½¾ù´øÈ¨ÖÜ×ªÊ±¼ä£º%6.1f\n",zztime_right);
+
+	tag=head;
 	while(tag!=NULL)
 	{
 		work=tag;
 		tag=tag->Next;
 		delete work;
 	}
-	
+
 }
 
 int main(void)
@@ -210,6 +210,6 @@ int main(void)
 	input();
 	FCFS();
 	SJF();
-	destroy;
+	destroy();
     return 0;
 }
