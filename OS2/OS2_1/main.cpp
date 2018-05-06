@@ -22,7 +22,7 @@ struct JCB{
     	priority=-1;
         Next=NULL;
     }
-}*Head,*Tail;
+}*Head,*Tail;               //后备队列的首尾指针
 
 void input(void)
 {
