@@ -1,4 +1,4 @@
-﻿#include <cstdio>
+#include <cstdio>
 #include <windows.h>
 
 
@@ -6,11 +6,11 @@ struct JCB
 {
     char username[10];
     char jobname[10];
-    int atime;              //作业到达时间
     int ntime;              //作业估计运行时间
     int nsource;            //作业所需总系统资源
     int asource;            //已分配的资源
     int nsource2;           //作业现在所需的资源(=nsource-asource)
+    int priority;           //优先级
     struct JCB* Next;
 
     JCB(void)
@@ -23,7 +23,7 @@ int N=0;                    //作业个数
 int source=10;              //初始系统资源
 
 void input(void);           //输入作业
-void fcfs_sort(void);       //新作业插入队列
+void PSA_sort(void);        //新作业插入队列
 void display(JCB* work);    //显示作业信息
 void running(void);         //运行后备队列队首的作业
 void running2(void);        //将不满足的队首作业放至队尾
@@ -32,7 +32,7 @@ int deadlock_test(void);    //死锁检测,返回值0表示正常，返回值1�
 
 void input(void)
 {
-    printf("（本程序初始系统资源数为10）\n");
+    printf("（本程序初始系统资源数为10，优先数小先运行）\n");
     printf("请输入作业个数：");
     scanf("%d",&N);
 
@@ -44,8 +44,8 @@ void input(void)
         scanf("%s",p->username);
         printf("输入作业名：");
         scanf("%s",p->jobname);
-        printf("输入作业到达时间：");
-        scanf("%d",&(p->atime));
+        printf("输入作业的优先数：");
+        scanf("%d",&(p->priority));
         printf("输入作业运行时间：");
         scanf("%d",&(p->ntime));
         printf("输入作业所需总资源：");
@@ -54,11 +54,11 @@ void input(void)
         scanf("%d",&(p->asource));
         p->nsource2=p->nsource - p->asource;
 
-        fcfs_sort();
+        PSA_sort();
     }
 }
 
-void fcfs_sort(void)
+void PSA_sort(void)
 {
     if(Ready==NULL)
     {
@@ -67,9 +67,9 @@ void fcfs_sort(void)
     else
     {
         JCB *flag=Ready;
-        if(Ready->atime <= p->atime)
+        if(Ready->priority <= p->priority)
         {
-            while((flag->Next!=NULL)&&((flag->Next)->atime <= p->atime))
+            while((flag->Next!=NULL)&&((flag->Next)->priority <= p->priority))
                 flag=flag->Next;
 
             p->Next=flag->Next;
@@ -86,8 +86,8 @@ void fcfs_sort(void)
 
 void display(JCB* work)
 {
-    printf("\n%15s%15s%15s%15s%15s%15s%15s\n", "用户名", "作业名", "到达时间", "估计运行时间", "所需总资源", "已分配资源", "所需资源");
-    printf("%15s%15s%15d%15d%15d%15d%15d\n", work->username, work->jobname, work->atime, work->ntime, work->nsource, work->asource, work->nsource2);
+    printf("\n%15s%15s%15s%15s%15s%15s%15s\n", "用户名", "作业名", "优先数", "估计运行时间", "所需总资源", "已分配资源", "所需资源");
+    printf("%15s%15s%15d%15d%15d%15d%15d\n", work->username, work->jobname, work->priority, work->ntime, work->nsource, work->asource, work->nsource2);
 }
 
 void running(void)
