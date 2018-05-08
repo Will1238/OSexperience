@@ -2,8 +2,12 @@
 
 using namespace std;
 
+struct PCB{
+	
+}
+
 int main()
 {
-    cout << "Hello world!" << endl;
+    
     return 0;
 }
