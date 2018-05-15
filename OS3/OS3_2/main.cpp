@@ -245,11 +245,13 @@ void memRecovery(void)
                     OccupyPart.erase(OccupyPart.begin()+i);
                     break;
                 }
-                else
+                else if(j==FreePart.size()-1)
                 {
                      free.start=OccupyPart[i].start;                                        //创建新空闲分区表项
                      free.length=OccupyPart[i].length;
                      free.state="free";
+                     FreePart.push_back(free);
+                     OccupyPart.erase(OccupyPart.begin()+i);
                      break;
                 }
             }
