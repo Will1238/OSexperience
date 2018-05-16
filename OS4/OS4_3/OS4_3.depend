@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1526443208 source:h:\github\osexperience\os4\os4_3\main.cpp
+	<vector>
+	<windows.h>
+
